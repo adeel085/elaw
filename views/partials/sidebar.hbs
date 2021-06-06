@@ -1,0 +1,221 @@
+<!-- Side Bar -->
+            <div class="app-sidebar sidebar-shadow">
+                <div class="app-header__logo">
+                    <div class="logo-src"></div>
+                    <div class="header__pane ml-auto">
+                        <div>
+                            <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-header__mobile-menu">
+                    <div>
+                        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="app-header__menu">
+                    <span>
+                        <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                            <span class="btn-icon-wrapper">
+                                <i class="fa fa-ellipsis-v fa-w-6"></i>
+                            </span>
+                        </button>
+                    </span>
+                </div>    
+                <div class="scrollbar-sidebar">
+                    <div class="app-sidebar__inner">
+                        <ul class="vertical-nav-menu">
+                            {{#if currentCase}}
+                                <li class="app-sidebar__heading">Current Case: {{currentCase.id}}</li>
+                                <li class="app-sidebar__heading">Current Money: $ {{currentCase.current_money}}</li>
+                                <li>                                
+                                </li>
+                            {{/if}}                            
+                            <li class="app-sidebar__heading">Dashboards</li>
+                            <li>
+                                <a href="{{baseURL}}dashboard" class="mm-active">
+                                    <i class="fas fa-home fa-lg mr-3"></i>
+                                    My Dashboard
+                                </a>
+                            </li>
+                            <li class="app-sidebar__heading">Legal</li>
+
+
+                            {{#ifEquals user.role "it_admin"}}
+                            <li>
+                                <a href="/case/addcase">
+                                    <i class="fas fa-file fa-lg mr-3"></i>
+                                    New Case
+                                </a>
+                            </li>
+                            {{/ifEquals}}
+                            {{#ifEquals user.role "managing_attorney"}}
+                            <li>
+                                <a href="/case/addcase">
+                                    <i class="fas fa-file-alt fa-lg mr-3"></i>
+                                    New Case
+                                </a>
+                            </li>
+                            {{/ifEquals}}
+
+
+                            <li>
+                                <a href="{{baseURL}}legalDetails">
+                                    <i class="fas fa-balance-scale-right fa-lg mr-3"></i>
+                                    Legal Details
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-calendar-week fa-lg mr-3"></i>
+                                    Activities
+                                    <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{baseURL}}activity/addactivity">
+                                            <i class="metismenu-icon">
+                                            </i>Add Activity
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{baseURL}}activity">
+                                            <i class="metismenu-icon">
+                                            </i>View All Activities
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-sticky-note fa-lg mr-3"></i>
+                                    Notes
+                                    <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{baseURL}}notes/addnote">
+                                            <i class="metismenu-icon">
+                                            </i>Add Notes
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{baseURL}}notes">
+                                            <i class="metismenu-icon">
+                                            </i>View All Notes
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{{baseURL}}documents">
+                                    <i class="fas fa-folder fa-lg mr-3">
+                                    </i>Documents
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-money-check-alt fa-lg mr-3"></i>
+                                    Charges/Trust
+                                    <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{baseURL}}charges/addcharges">
+                                            <i class="metismenu-icon">
+                                            </i>Add Charges
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{baseURL}}charges">
+                                            <i class="metismenu-icon">
+                                            </i>View All Charges
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{baseURL}}charges/addtrust">
+                                            <i class="metismenu-icon">
+                                            </i>Add Trust
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{baseURL}}charges/trust">
+                                            <i class="metismenu-icon">
+                                            </i>View All Trust Deposits
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-gavel fa-lg mr-3">
+                                    </i>Judgement/Settlement
+                                </a>
+                            </li>
+                            {{#ifEqualsToAny user.role 'it_admin' 'managing_attorney'}}
+                            <li class="app-sidebar__heading">Management</li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-mouse">
+                                    </i>Workers
+                                    <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{baseURL}}worker/create">
+                                            <i class="metismenu-icon">
+                                            </i>Add Worker
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="metismenu-icon">
+                                            </i>Update Worker Details
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{baseURL}}worker">
+                                            <i class="metismenu-icon">
+                                            </i>View All Workers
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-exchange-alt fa-lg mr-3">
+                                    </i>Transfer Assignment
+                                </a>
+                            </li>
+                            {{/ifEqualsToAny}}
+                            <li class="app-sidebar__heading">Search</li>
+                            <li>
+                                <a href="#">
+                                    <i class="fas fa-file-alt fa-lg mr-3">
+                                    </i>Case
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-graph2">
+                                    </i>Plaintiffs
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="metismenu-icon pe-7s-graph2">
+                                    </i>Defendents
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>

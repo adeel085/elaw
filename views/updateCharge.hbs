@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Dashboard | eLaw</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+<link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css">
+<body>
+
+<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+
+    {{> header}}
+
+    <div class="app-main">
+        {{> sidebar}}
+        <div class="app-main__outer">
+            <div class="app-main__inner">
+
+                <!-- Page Title -->
+                <div class="app-page-title">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-heading">
+                            <div class="page-title-icon">
+                                <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                                </i>
+                            </div>
+                            <div>
+                                Update Note
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End Page Title -->
+
+                {{#if charge}}
+                    {{#each charge}}
+                        <div class="main-card mb-3 card">
+                            <form>
+                                <div class="card-body">
+                                    <h5 class="card-title">Worker Name</h5>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">{{this.first_name}} {{this.last_name}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Select Unit</h5>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Charge Unit</label>
+                                                <select class="form-control" name="chargeUnit" id="selectUnit">
+                                                    <option value="">Choose</option>
+                                                    <option value="hours">Per Hour</option>
+                                                    <option value="days">Per Day</option>
+                                                    <option value="weeks">Per Week</option>
+                                                    <option value="months">Per Month</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Unit Cost</label>
+                                                <input name="unitCost" id="" placeholder="Enter Rate in $" type="number" class="form-control" value="{{this.unit_cost}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Add Charges</h5>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Time Period</label>
+                                                <div style="display: flex">
+                                                    <input name="timePeriod" placeholder="Time Period" type="number" class="form-control" value="{{this.time_period}}">
+                                                    <h5 style="padding: 0 10px; margin: 0;line-height: 1.7" id="time-period-unit"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Note Title</label>
+                                                <input name="noteTitle" placeholder="" type="text" class="form-control" value="{{this.note_title}}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Note Description</label>
+                                                <textarea class="form-control" name="noteDescription">{{this.note_detail}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="position-relative row form-group">
+                                        <label for="startTime" class="col-sm-2 col-form-label">Time</label>
+                                        <div class="col-sm-4">
+                                            <input type="datetime-local" class="form-control" id="updateChargeTime">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Attach Documents</label>
+                                                <div>
+                                                    <div id="attached-files-div" style="padding: 10px 2px">
+                                                        {{#if ../files}}
+                                                            {{#each ../files}}
+                                                                <div><a download href="{{../../baseURL}}{{this.file_path}}">{{this.file_path}}</a></div>
+                                                            {{/each}}
+                                                        {{else}}
+                                                            No Documents Attached
+                                                        {{/if}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="position-relative row form-check">
+                                        <div class="col-sm-10 offset-sm-2">
+                                            <input type="submit" value="Save" class="mt-2 btn btn-primary float-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    {{/each}}
+                {{/if}}
+            </div>
+            <!-- Footer -->
+            <div class="app-wrapper-footer">
+                <div class="app-footer">
+                    <div class="app-footer__inner">
+                        <div class="app-footer-right">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" class="nav-link">
+                                        Footer Link 1
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" class="nav-link">
+                                        Footer Link 2
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{> footer}}
+<script>
+    $(function () {
+        let attachedFilesDiv = $(`#attached-files-div`).children()
+        let numberOfFiles = attachedFilesDiv.length
+        for(let i = 0; i < numberOfFiles; i++) {
+            let aTagText = $(attachedFilesDiv[i]).children()[0].innerText
+            let foo = aTagText.split("\\")
+            let fileName = foo[foo.length - 1]
+            $(attachedFilesDiv[i]).children()[0].innerText = fileName
+        }
+    {{#if charge}}
+        {{#each charge}}
+            let time = "{{this.time}}"
+            time = time.replace(" ", "T")
+            $(`#updateChargeTime`).val(time)
+
+            if("{{this.unit}}" === 'hours') {
+                $(`#selectUnit option:eq(1)`).prop('selected', true)
+            }
+            else if("{{this.unit}}" === 'days') {
+                $(`#selectUnit option:eq(2)`).prop('selected', true)
+            }
+            else if("{{this.unit}}" === 'weeks') {
+                $(`#selectUnit option:eq(3)`).prop('selected', true)
+            }
+            else {
+                $(`#selectUnit option:eq(4)`).prop('selected', true)
+            }
+        {{/each}}
+    {{/if}}
+
+    })
+</script>

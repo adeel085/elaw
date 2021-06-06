@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Activities | eLaw</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+<link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css">
+<body>
+
+<div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+
+    {{> header}}
+
+    <div class="app-main">
+        {{> sidebar}}
+        <div class="app-main__outer">
+            <div class="app-main__inner">
+
+                <!-- Page Title -->
+                <div class="app-page-title">
+                    <div class="page-title-wrapper">
+                        <div class="page-title-heading">
+                                <i class="fas fa-sticky-note fa-2x mr-3"></i>
+                            <div id="pageTitle">
+                                View All Notes
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End Page Title -->
+
+
+                <!-- Page Content Goes Here -->
+                {{#if currentCase}}
+                    <div class="main-card mb-3 card">
+                        <div class="card-body"><h5 class="card-title"></h5>
+                            <table class="mb-0 table table-hover" id="activitiesTable">
+                                <thead>
+                                <tr>
+                                    <th>Case Id</th>
+                                    <th>Note Id</th>
+                                    <th>Title</th>
+                                    <th>Time</th>
+                                    <th>Worker Name</th>
+                                    <th>Note Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="notes-tbody">
+                                {{#if notes}}
+                                    {{#each notes}}
+                                        <tr>
+                                            <td>{{this.case_id}}</td>
+                                            <td>{{this.note_id}}</td>
+                                            <td>{{this.note_title}}</td>
+                                            <td id="date-row-{{this.note_id}}">{{this.time}}</td>
+                                            <td>{{this.first_name}} {{this.last_name}}</td>
+                                            <td>
+                                                {{#if this.activity_id}}
+                                                    Activity Note
+                                                {{else if this.charge_id}}
+                                                    Charge Note
+                                                {{else}}
+                                                    Simple Note
+                                                {{/if}}
+                                            </td>
+                                            <td><a href="{{baseURL}}notes/updatenote/{{this.note_id}}">Update</a></td>
+                                        </tr>
+                                    {{/each}}
+                                {{/if}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {{else}}
+                    Please select a case to work with!
+                {{/if}}
+
+
+
+            </div>
+
+            <!-- Footer -->
+            <div class="app-wrapper-footer">
+                <div class="app-footer">
+                    <div class="app-footer__inner">
+                        <div class="app-footer-right">
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" class="nav-link">
+                                        Footer Link 1
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="javascript:void(0);" class="nav-link">
+                                        Footer Link 2
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{{> footer}}
+<script>
+    // $( document ).ready(function() {
+    //     let tbodyChildren = $('#notes-tbody').children()
+    //     for(let i = 0; i < tbodyChildren.length; i++) {
+    //         let dateRow = $(tbodyChildren[i]).children()[3]
+    //         let date = new Date($(dateRow).text())
+    //         $(dateRow).text(date.toLocaleString())
+    //     }
+    // })
+</script>

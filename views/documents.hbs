@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Create New Activity | eLaw</title>
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/file-manager.css">
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css?v=1">
+<body>
+
+    <div class="modal fade" id="folderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activityModalLabel">Create Folder</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <span>Folder Name</span>
+                        <input type="text" id="folder-name" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="createFolderDone">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        
+        {{> header}}
+
+        <div class="app-main">
+            {{> sidebar}}
+            <div class="app-main__outer">
+                <div class="app-main__inner">
+
+                    <!-- Page Title -->
+                    <div class="app-page-title">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                    <i class="fas fa-folder fa-2x mr-3"></i>
+                                <div>
+                                    Add Documents
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Page Title -->
+
+                    {{#if currentCase}}
+                    <!-- Page Content Goes Here -->
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Manage the Case Directory</h5>
+                            
+                            <div class="thread-work-content">
+                                <div class="tab-content tab-content-wrkspc">
+
+                                    <div class="north-bar">
+                                        <button id="upload-btn" title="Upload"><i class="fa fa-upload"></i> Upload File</button>
+                                        <button id="create-folder-btn" title="Create New Folder">
+                                            <i class="fa fa-folder"></i> New Folder
+                                        </button>
+
+                                        <div class="search-wrkspc-field">
+                                            <input type="text" placeholder="Search"/>
+                                            <div class="search-btn-sec">
+                                                <i class="fa fa-search"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="curr-dir-path-view mb-2" id="current-dir-path-view">
+                                        
+                                    </div>
+
+                                    <div class="south-content row">
+                                        <div class="col-3 dir-tree">
+                                            <ul class="dirs-list root-dir-list">
+                                                
+                                            </ul>
+                                        </div>
+                                        <div class="col-9 dir-contents-area" id="dir-contents-div">
+                                            <div class="dir-table" id="dir-table-div">
+                                                <div class="dir-table-header-row dir-table-row">
+                                                    <div class="dir-table-cell chk-bx-cell">
+                                                        <input type="checkbox" id="select-all-chk-bx"/>
+                                                    </div>
+                                                    <div class="dir-table-cell name-cell">
+                                                        NAME
+                                                    </div>
+                                                    <div class="dir-table-cell modified-cell">
+                                                        MODIFIED
+                                                    </div>
+                                                </div>
+
+                                                <div id="contents-view">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    {{else}}
+                        Please select a case to work with!
+                    {{/if}}
+                </div>
+
+
+                <!-- Footer -->
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-right">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 1
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 2
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {{> footer}}
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: `{{baseURL}}documents/{{currentCase.id}}`,
+                method: 'GET',
+                dataType: 'json',
+                success: function(tree) {
+                    console.log(JSON.stringify(tree, undefined, 2))
+                    if (tree == null) {
+                        return
+                    }
+                    
+                    populateDirTree(tree, $(".root-dir-list"), getBaseName(tree.name))
+
+                    // Show the list of directories in root directory in the .dir-tree div
+                    $(".root-dir-list>li:first-child>.dir-btn").click()
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
+
+        function populateDirTree(rootNode, element, path) {
+            
+            if (rootNode.type == 'file') {
+                $(element).append(`<li class="d-none">
+                                        <span class="dir-btn" data-selected="false" data-dir-path="${path}" data-type="file">
+                                            <i class="fa fa-folder"></i> ${getBaseName(rootNode.name)}
+                                        </span>
+                                    </li>`)
+                return
+            }
+
+            if (rootNode.children.length == 0) {
+                $(element).append(`<li>
+                                        <span class="dir-btn" data-selected="false" data-dir-path="${path}" data-type="folder">
+                                            <i class="fa fa-folder"></i> ${getBaseName(rootNode.name)}
+                                        </span>
+                                    </li>`)
+                return
+            }
+            
+            let childElement = $(`<li>
+                                    <span class="dir-btn" data-selected="false" data-dir-path="${path}" data-type="folder">
+                                        <i class="fa fa-caret-right arrow-icon"></i>
+                                        <i class="fa fa-folder"></i> ${getBaseName(rootNode.name)}
+                                    </span>
+                                    <ul class="dirs-list"></ul>
+                                </li>`)
+            $(element).append(childElement)
+
+            for (let i = 0; i < rootNode.children.length; i++) {
+                populateDirTree(rootNode.children[i], childElement.find(".dirs-list"), path + "/" + getBaseName(rootNode.children[i].name))
+            }
+        }
+
+        $("#create-folder-btn").click(function() {
+            $("#folderModal").modal("show")
+        })
+
+        $("#createFolderDone").click(function() {
+            let folderName = $("#folder-name").val()
+            $.ajax({
+                url: '{{baseURL}}documents/createfolder',
+                method: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'path': currentFolderFileManager,
+                    'folderName': folderName
+                }),
+                success: function(res) {
+                    console.log(JSON.stringify(res, undefined, 2))
+                    if (res.status == 'ok') {
+                        window.location.href = window.location.href
+                    }
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
+
+        $("#upload-btn").click(function() {
+            // Upload file
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Dashboard | eLaw</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        
+        {{> header}}
+
+        <div class="app-main">
+            
+            {{> sidebar}}
+
+            <div class="app-main__outer">
+                <div class="app-main__inner">
+
+                    <!-- Page Title -->
+                    <div class="app-page-title">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                    <i class="fas fa-file fa-2x mr-3"></i>
+                                <div>
+                                    New Case
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Page Title -->
+
+
+                    <!-- Page Content Goes Here -->
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Enter Case Details</h5>
+                            <form class="">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label for="exampleEmail11" class="">Type</label>
+                                            <select class="form-control" name="caseType" id="caseType">
+                                                <option value="">Choose</option>
+                                                {{#each caseTypes}}
+                                                <option value="{{this.enumForm}}">{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label for="exampleEmail11" class="">Sub Type</label>
+                                            <select class="form-control" name="caseSubType" id="caseSubType">
+                                                <option value="">Choose</option>
+                                                {{#each caseSubTypes}}
+                                                <option value={{this.enumForm}}>{{this.name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label for="exampleEmail11" class="">Assign To</label>
+                                            <select class="form-control" name="assignTo" id="assignTo">
+                                                <option value="">Choose</option>
+                                                {{#each workers}}
+                                                <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="position-relative form-group">
+                                            <label for="exampleEmail11" class="">Legal Assistant</label>
+                                            <select class="form-control" name="legalAssistant" id="legalAssistant">
+                                                <option value="">Choose</option>
+                                                {{#each workers}}
+                                                <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                {{/each}}                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label for="courtType" class="">Court Type</label>
+                                            <input name="courtType" id="courtType" placeholder="Court Type" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label for="courtNumber" class="">Court Number</label>
+                                            <input name="courtNumber" id="courtNumber" placeholder="Court Number" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label for="judge" class="">Judge</label>
+                                            <input name="judge" id="judge" placeholder="Judge" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <div class="position-relative form-group">
+                                            <label for="place" class="">Place</label>
+                                            <input name="place" id="place" placeholder="Place" type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr/>
+
+                                <!-- Add Plaintiffs -->
+                                <div class="form-row mb-5">
+                                    <div class="col-md-4">
+                                        <label for="place" class="">Plaintiffs</label>
+                                        <ul id="plaintiffs-list">
+                                            
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-8 mt-3">
+                                        <fieldset class="position-relative form-group" id="add-plaintiff-method">
+                                            <div class="position-relative form-check d-inline-block">
+                                                <label class="form-check-label">
+                                                    <input name="add-plaintiff-method" value="existing" type="radio" class="form-check-input" checked=""> Select from existing
+                                                </label>
+                                            </div>
+                                            <div class="position-relative form-check d-inline-block ml-2">
+                                                <label class="form-check-label">
+                                                    <input name="add-plaintiff-method" value="new" type="radio" class="form-check-input"> Create New
+                                                </label>
+                                            </div>
+                                        </fieldset>
+
+                                        <div class="row" id="choose-plaintiff-div">
+                                            <div class="col-md-6">
+                                                <label for="courtType" class="">Select Plaintiff</label>
+                                                <select class="form-control" id="plaintiff-dropdown">
+                                                    <option value="">Choose</option>
+                                                    {{#each plaintiffs}}
+                                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-end">
+                                                <button class="mt-2 btn btn-primary" onclick="addPlaintiff(); return false;">Add Plaintiff</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row d-none" id="create-plaintiff-div">
+                                            <div class="col-md-4">
+                                                <label for="plaintiff-fname" class="">First Name</label>
+                                                <input name="plaintiff-fname" id="plaintiff-fname" placeholder="First Name" type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="plaintiff-lname" class="">Last Name</label>
+                                                <input name="plaintiff-lname" id="plaintiff-lname" placeholder="Last Name" type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="plaintiff-type" class="">Type</label>
+                                                <select class="form-control" name="plaintiff-type" id="plaintiff-type">
+                                                    <option value="">Choose</option>
+                                                    <option value="Person">Person</option>
+                                                    <option value="Company">Company</option>
+                                                    <option value="Entity">Entity</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="mt-2 btn btn-primary float-right" onclick="addNewPlaintiff(); return false;">Create and Add</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <!-- Add Defendents -->
+                                <div class="form-row mb-5">
+                                    <div class="col-md-4">
+                                        <label for="place" class="">Defendents</label>
+                                        <ul id="defendents-list">
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-8 mt-3">
+                                        <fieldset class="position-relative form-group">
+                                            <div class="position-relative form-check d-inline-block">
+                                                <label class="form-check-label">
+                                                    <input name="add-defendant-method" value="existing" type="radio" class="form-check-input" checked=""> Select from existing
+                                                </label>
+                                            </div>
+                                            <div class="position-relative form-check d-inline-block ml-2">
+                                                <label class="form-check-label">
+                                                    <input name="add-defendant-method" value="new" type="radio" class="form-check-input"> Create New
+                                                </label>
+                                            </div>
+                                        </fieldset>
+
+                                        <div class="row" id="choose-defendent-div">
+                                            <div class="col-md-6">
+                                                <label for="courtType" class="">Select Defendent</label>
+                                                <select class="form-control" id="defendant-dropdown">
+                                                    <option value="">Choose</option>
+                                                    {{#each defendants}}
+                                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-end">
+                                                <button class="mt-2 btn btn-primary" onclick="addDefendant(); return false;">Add Defendent</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row d-none" id="create-defendent-div">
+                                            <div class="col-md-4">
+                                                <label for="defendent-fname" class="">First Name</label>
+                                                <input name="defendent-fname" id="defendent-fname" placeholder="First Name" type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="defendent-lname" class="">Last Name</label>
+                                                <input name="defendent-lname" id="defendent-lname" placeholder="Last Name" type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="defendent-type" class="">Type</label>
+                                                <select class="form-control" name="defendent-type" id="defendent-type">
+                                                    <option value="">Choose</option>
+                                                    <option value="Person">Person</option>
+                                                    <option value="Company">Company</option>
+                                                    <option value="Entity">Entity</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="mt-2 btn btn-primary float-right" onclick="addNewDefendant(); return false;">Create and Add</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                
+                                <button class="mt-2 btn btn-primary float-right" onclick="addNewCase(); return false;">Add Case</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Footer -->
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-right">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 1
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 2
+                                        </a>                                    
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {{> footer}}   
+    <script>
+        $(document).ready(function() {
+
+            $('[name="add-plaintiff-method"]').on("click", function() {
+
+                $("#choose-plaintiff-div").addClass('d-none');
+                $("#create-plaintiff-div").addClass('d-none');
+
+                if ($(this).val() === 'new') {
+                    $("#create-plaintiff-div").removeClass('d-none');
+                }
+                else if ($(this).val() === 'existing') {
+                    $("#choose-plaintiff-div").removeClass('d-none');
+                }
+            });
+
+
+            $('[name="add-defendant-method"]').on("click", function() {
+                
+                $("#choose-defendent-div").addClass('d-none');
+                $("#create-defendent-div").addClass('d-none');
+
+                if ($(this).val() === 'new') {
+                    $("#create-defendent-div").removeClass('d-none');
+                }
+                else if ($(this).val() === 'existing') {
+                    $("#choose-defendent-div").removeClass('d-none');
+                }
+            });
+        });
+
+        function addPlaintiff() {
+            let id = $(`#plaintiff-dropdown option:selected`).val()
+            let name = $(`#plaintiff-dropdown option:selected`).text()
+            
+            $(`#plaintiffs-list`).append(getPlaintiffUI(id, name))
+        }
+
+        function addDefendant() {
+            let id = $(`#defendant-dropdown option:selected`).val()
+            let name = $(`#defendant-dropdown option:selected`).text()
+
+            $(`#defendents-list`).append(getDefendantUI(id, name))
+        }    
+
+        function addNewPlaintiff() {    
+            let date
+            date = new Date()
+            date = date.getUTCFullYear() + '-' +
+                ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+                ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+                ('00' + date.getUTCHours()).slice(-2) + ':' + 
+                ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+                ('00' + date.getUTCSeconds()).slice(-2)
+
+            let firstName = $(`#plaintiff-fname`).val()
+            let lastName = $(`#plaintiff-lname`).val()
+            let type = $(`#plaintiff-type option:selected`).val()
+            
+            $.ajax({
+                url: "{{baseURL}}plaintiff/addplaintiff",
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    firstname: firstName,
+                    lastname: lastName,
+                    type: type,
+                    date: date
+                }),                
+                success: (result) => {
+                    if (result != null && result.id != null) {
+                        $("#plaintiff-dropdown").append(getPlaintiffOptionUI(result.id, firstName, lastName));
+                        $(`#plaintiffs-list`).append(getPlaintiffUI(result.id, firstName + " " + lastName))
+                    }
+                }
+            })
+        }
+
+        function addNewDefendant() {
+            let date
+            date = new Date()
+            date = date.getUTCFullYear() + '-' +
+                ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+                ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+                ('00' + date.getUTCHours()).slice(-2) + ':' + 
+                ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+                ('00' + date.getUTCSeconds()).slice(-2)
+
+            let firstName = $(`#defendent-fname`).val()
+            let lastName = $(`#defendent-lname`).val()
+            let type = $(`#defendent-type option:selected`).val()
+            
+            $.ajax({
+                url: "{{baseURL}}defendant/adddefendant",
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    firstname: firstName,
+                    lastname: lastName,
+                    type: type,
+                    date: date
+                }),                
+                success: (result) => {
+                    if (result != null && result.id != null) {
+                        $("#defendant-dropdown").append(getDefendantOptionUI(result.id, firstName, lastName));
+                        $(`#defendents-list`).append(getDefendantUI(result.id, firstName + " " + lastName))
+                    }
+                }
+            })
+        }
+
+        // Functions to render UI elements
+        function getPlaintiffUI(id, name) {
+            return (`
+                <li data-id="${id}">
+                    ${name}<i class="fa fa-close float-right cursor-pointer"></i>
+                </li>
+            `)
+        }
+
+        function getDefendantUI(id, name) {
+            return (`
+                <li data-id="${id}">
+                    ${name}<i class="fa fa-close float-right cursor-pointer"></i>
+                </li>
+            `)
+        }
+
+        function getPlaintiffOptionUI(id, firstName, lastName) {
+            return (`<option value="${id}">${firstName} ${lastName}</option>`);
+        }
+
+        function getDefendantOptionUI(id, firstName, lastName) {
+            return (`<option value="${id}">${firstName} ${lastName}</option>`);
+        }
+
+        function addNewCase() {
+            let caseType = $("#caseType").val()
+            let caseSubType = $("#caseSubType").val()
+            let assignTo = Number($("#assignTo").val())
+            let legalAssistant = Number($("#legalAssistant").val())
+            let courtType = $("#courtType").val()
+            let courtNumber = Number($("#courtNumber").val())
+            let judge = $("#judge").val()
+            let place = $("#place").val()
+            let caseDate = getFormattedDate()
+            let plaintiffs = []
+            let defendants = []
+
+            document.querySelectorAll("#plaintiffs-list li").forEach((item, index) => {
+                plaintiffs.push({
+                    id: Number(item.getAttribute("data-id"))
+                });
+            });
+
+            document.querySelectorAll("#plaintiffs-list li").forEach((item, index) => {
+                defendants.push({
+                    id: Number(item.getAttribute("data-id"))
+                });
+            });
+
+
+            $.ajax({
+                url: "{{baseURL}}case/addcase",
+                method: 'POST',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    caseType: caseType,
+                    caseSubType: caseSubType,
+                    assignedTo: assignTo,
+                    legalAssistant: legalAssistant,
+                    courtNumber: courtNumber,
+                    judge: judge,
+                    place: place,
+                    courtType: courtType,
+                    caseDate: caseDate,
+                    plaintiffs: plaintiffs,
+                    defendants: defendants
+                }),                
+                success: (result) => {
+                    if (result != null && result.id != null) {
+                        window.location.href = "{{baseURL}}legalDetails"
+                    }
+                }
+            })
+        }
+
+        function getFormattedDate() {
+            var d = new Date();
+            d = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
+            return d;
+        }
+    </script>
+</body>
+</html>

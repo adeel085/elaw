@@ -1,0 +1,15 @@
+<html>
+    <body>
+        <form method="POST" action="addplaintiff">
+            <input type="text" name="firstname" placeholder="Firstname">
+            <input type="text" name="lastname" placeholder="Lastname">
+            <select name="type">
+                {{#each plaintiffTypes}}
+                    <option value="{{this.enumForm}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+            <input type="date" name="date">
+            <input type="submit">
+        </form>
+    </body>
+</html>

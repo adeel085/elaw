@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Dashboard | eLaw</title>
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/fullcalendar.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css?v=1.01">
+<body>
+
+    <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activityModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <span><strong>Created By: </strong><br/><span id="modalWorkerName"></span></span>
+                    </div>
+
+                    <p class="mb-3"><strong>Details: </strong><br/><span id="activityModalDesc"></span></p>
+
+                    <div>
+                        <strong>Status: </strong><br/>
+                        <fieldset class="position-relative form-group">
+                            <div class="position-relative form-check">
+                                <label class="form-check-label">
+                                    <input name="activityStatus" value="waiting" type="radio" class="form-check-input" checked> Waiting
+                                </label>
+                            </div>
+                            <div class="position-relative form-check">
+                                <label class="form-check-label">
+                                    <input name="activityStatus" value="in_progress" type="radio" class="form-check-input"> In Progress
+                                </label>
+                            </div>
+                            <div class="position-relative form-check">
+                                <label class="form-check-label">
+                                    <input name="activityStatus" value="completed" type="radio" class="form-check-input"> Completed
+                                </label>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <a id="activityPageLink" href="#">Go to Activity Page</a>
+                    </div>
+
+                    <div>
+                        <input type="hidden" id="activityId">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveActivityChangesBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">        
+
+        {{> header}}
+        
+        <div class="app-main">                        
+            {{> sidebar}}
+            <div class="app-main__outer">
+                <div class="app-main__inner">
+
+                    <!-- Page Title -->
+                    <div class="app-page-title">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                    <i class="fas fa-home fa-2x mr-3"></i>
+                                <div>My Dashboard
+                                    <div class="page-title-subheading">You have 2 upcoming activities today
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Page Title -->
+
+
+                    <!-- Page Content Goes Here -->
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <div id='ls-calendar'></div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-right">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 1
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 2
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {{> footer}}
+    <script>
+        var events = [];
+        var signalingClick = false;
+        
+        $('#ls-calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,listWeek'
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            eventClick: function(calEvent, jsEvent, view) {
+
+                if (signalingClick) {
+                    let activityStartDateTime = new Date(calEvent.start.format())
+                    let activityEndDateTime = new Date(calEvent.end.format())
+                    let nowDateTime = new Date()
+
+                    if (activityStartDateTime <= nowDateTime && calEvent.status === 'waiting') {
+                        // If the activity start time has been passed and the activity is not yet started
+                        $(this).css({
+                            'background-color': '#e38123',
+                            'border': 'none'
+                        });
+                    }
+
+                    if (activityEndDateTime <= nowDateTime && calEvent.status === 'waiting') {
+                        $(this).css({
+                            'background-color': '#da4017',
+                            'border': 'none'
+                        });
+                    }
+
+                    if (activityEndDateTime <= nowDateTime && calEvent.status === 'in_progress') {
+                        // If the activity start time has been passed and the activity is not yet started
+                        $(this).css({
+                            'background-color': '#da4017',
+                            'border': 'none'
+                        });
+                    }
+
+                    if (calEvent.status === 'completed') {
+                        $(this).css({
+                            'background-color': '#48b159',
+                            'border': 'none'
+                        });
+                    }
+
+                    return
+                }
+                
+                console.log('Id: ' + calEvent.id)
+
+                $("#activityModalLabel").html(calEvent.title)
+                $("#activityModalDesc").html(calEvent.description)
+                $("#modalWorkerName").html(calEvent.workerName)
+                $("#activityPageLink").attr("href", `{{baseURL}}activity/updateactivity/${calEvent.id}`)
+                $("#activityId").val(calEvent.id)
+                let radios = $("input[name='activityStatus']").get()
+                radios.forEach((item, index) => {
+                    if (item.value === calEvent.status) {
+                        item.checked = true
+                        $(item).prop("checked", true)
+                        return false
+                    }
+                })
+                $("#activityModal").modal("show")
+            },
+            viewRender: function(view, element) {
+                updateEventsColor()
+            }
+        });
+
+        addEvents()
+
+        $("#saveActivityChangesBtn").click(function() {
+            let activityId = $("#activityId").val()
+            let status = $("input[name='activityStatus']:checked").val()
+            
+            $.ajax({
+                url: "{{baseURL}}activity/updatestatus",
+                method: "put",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    id: activityId,
+                    status: status
+                }),
+                success: function(res) {
+                    if (res !== 'done') {
+                        alert("Sorry! An unknow error occurred at the server side!!!")
+                        return
+                    }
+
+                    $("#ls-calendar").fullCalendar('removeEventSource', events)
+                    events = []  
+                    addEvents()
+                    $("#activityModal").modal("hide")
+                },
+                error: function(err) {
+
+                }
+            })
+        })
+
+        function addEvents() {
+            $.ajax({
+                url: baseURL + "/activity/activities",
+                method: "get",
+                dataType: "json",
+                success: function(activities) {
+                    for (let i = 0; i < activities.length; i++) {
+                        let activity = activities[i]
+                        console.log(activity["end_date_time"])
+                        events.push({
+                            id: activity["id"],
+                            title: activity["title"],
+                            start: activity["start_date_time"],
+                            end: activity["end_date_time"],
+                            description: activity["description"],
+                            caseId: activity["case_id"],
+                            creatorId: activity["created_by"],
+                            workerName: activity["worker_fname"] + " " + activity["worker_lname"],
+                            status: activity["status"]
+                        })
+                    }
+                    $('#ls-calendar').fullCalendar('addEventSource', events)
+
+                    updateEventsColor()
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            })
+        }
+
+        function updateEventsColor() {
+            signalingClick = true
+            $(".fc-day-grid-event.fc-h-event.fc-event.fc-start.fc-end.fc-draggable").click()
+            signalingClick = false;
+        }
+    </script>
+</body>
+</html>

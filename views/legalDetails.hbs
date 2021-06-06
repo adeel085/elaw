@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Legal Details | eLaw</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css">
+<body>
+
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        
+        {{> header}}
+
+        <div class="app-main">
+            {{> sidebar}}
+            <div class="app-main__outer">
+                <div class="app-main__inner">
+
+                    <!-- Page Title -->
+                    <div class="app-page-title">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                    <i class="fas fa-balance-scale-right fa-2x mr-3"></i>
+                                <div>
+                                    Legal Details
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Page Title -->
+
+
+
+                    <!-- Page Content Goes Here -->
+                    {{#if currentCase}}
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+                                <h5 class="card-title">Enter Case Legal Details</h5>
+                                <form class="">
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="caseType" class="">Type</label>
+                                                <select class="form-control" name="caseType" id="caseType">
+                                                    <option value="">Choose</option>
+                                                    {{#each caseTypes}}
+                                                    <option value="{{this.enumForm}}">{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="caseSubType" class="">Sub Type</label>
+                                                <select class="form-control" name="caseSubType" id="caseSubType">
+                                                    <option value="">Choose</option>
+                                                    {{#each caseSubTypes}}
+                                                    <option value={{this.enumForm}}>{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="assignedTo" class="">Assign To</label>
+                                                <select class="form-control" name="assignedTo" id="assignedTo">
+                                                    <option value="">Choose</option>
+                                                    {{#each workers}}
+                                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="position-relative form-group">
+                                                <label for="exampleEmail11" class="">Legal Assistant</label>
+                                                <select class="form-control" name="legalAssistant" id="legalAssistant">
+                                                    <option value="">Choose</option>
+                                                    {{#each workers}}
+                                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                    {{/each}}                                                
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="courtType" class="">Court Type</label>
+                                                <input name="courtType" id="courtType" placeholder="Court Type" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="courtNumber" class="">Court Number</label>
+                                                <input name="courtNumber" id="courtNumber" placeholder="Court Number" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="judge" class="">Judge</label>
+                                                <input name="judge" id="judge" placeholder="Judge" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="place" class="">Place</label>
+                                                <input name="place" id="place" placeholder="Place" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="trialDate" class="">Trial Date</label>
+                                                <input name="trialDate" id="trialDate" type="date" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="matterNumber" class="">Client Matter Number</label>
+                                                <input name="matterNumber" id="matterNumber" placeholder="Client Matter Number" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="city" class="">City</label>
+                                                <input name="city" id="city" placeholder="City" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="state" class="">State</label>
+                                                <input name="state" id="state" placeholder="State" type="text" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="zip" class="">Zip</label>
+                                                <input name="zip" id="zip" placeholder="Zip" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="address" class="">Address</label>
+                                                <input name="address" id="address" placeholder="Address" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="phone" class="">Phone</label>
+                                                <input name="phone" id="phone" placeholder="Phone" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="altPhone" class="">Alt Phone</label>
+                                                <input name="altPhone" id="altPhone" placeholder="Alt Phone" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="mt-2 btn btn-primary float-right" onclick="saveLegalDetails(); return false;">Save Details</button>
+                                </form>
+                            </div>
+                        </div> 
+
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+                                <h5 class="card-title">Plaintiffs Details</h5>
+                                <form class="">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="selectPlaintiff" class="">Select Plaintiff</label>
+                                                <select class="form-control" name="selectPlaintiff" id="selectPlaintiff">
+                                                    <option value="">Choose</option>
+                                                    {{#each casePlaintiffs}}
+                                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <input type="hidden" id="pDateAdded">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pFirstName" class="">First Name</label>
+                                                <input name="pFirstName" id="pFirstName" placeholder="First Name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pLastName" class="">Last Name</label>
+                                                <input name="pLastName" id="pLastName" placeholder="Last Name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pType" class="">Type</label>
+                                                <input name="pType" id="pType" placeholder="Type" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pCity" class="">City</label>
+                                                <input name="pCity" id="pCity" placeholder="City" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pState" class="">State</label>
+                                                <input name="pState" id="pState" placeholder="State" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pZip" class="">Zip</label>
+                                                <input name="pZip" id="pZip" placeholder="Zip" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pAddress" class="">Address</label>
+                                                <input name="pAddress" id="pAddress" placeholder="Address" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pPhone" class="">Phone</label>
+                                                <input name="pPhone" id="pPhone" placeholder="Phone" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pAltPhone" class="">Alt Phone</label>
+                                                <input name="pAltPhone" id="pAltPhone" placeholder="Alt Phone" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pSsn" class="">SSN</label>
+                                                <input name="pSsn" id="pSsn" placeholder="SSN" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pDriverLicense" class="">Driver License</label>
+                                                <input name="pDriverLicense" id="pDriverLicense" placeholder="Driver License" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pEmail" class="">Email</label>
+                                                <input name="pEmail" id="pEmail" placeholder="Email" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pFax" class="">Fax Number</label>
+                                                <input name="pFax" id="pFax" placeholder="Fax Number" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pSopaName" class="">SOPA Name</label>
+                                                <input name="pSopaName" id="pSopaName" placeholder="SOPA Name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="pSopaAddress" class="">SOPA Address</label>
+                                                <input name="pSopaAddress" id="pSopaAddress" placeholder="SOPA Address" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="mt-2 btn btn-primary float-right" onclick="savePlaintiffDetails(); return false;">Save Details</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="main-card mb-3 card">
+                            <div class="card-body">
+                                <h5 class="card-title">Defendants Details</h5>
+                                <form class="">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="selectDefendants" class="">Select Defendant</label>
+                                                <select class="form-control" name="selectDefendants" id="selectDefendants">
+                                                    <option value="">Choose</option>
+                                                    {{#each caseDefendants}}
+                                                    <option value="{{this.id}}">{{this.first_name}} {{this.last_name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <input type="hidden" id="dDateAdded">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dFirstName" class="">First Name</label>
+                                                <input name="dFirstName" id="dFirstName" placeholder="First Name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dLastName" class="">Last Name</label>
+                                                <input name="dLastName" id="dLastName" placeholder="Last Name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dType" class="">Type</label>
+                                                <input name="dType" id="dType" placeholder="Type" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dCity" class="">City</label>
+                                                <input name="dCity" id="dCity" placeholder="City" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dState" class="">State</label>
+                                                <input name="dState" id="dState" placeholder="State" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dZip" class="">Zip</label>
+                                                <input name="dZip" id="dZip" placeholder="Zip" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dAddress" class="">Address</label>
+                                                <input name="dAddress" id="dAddress" placeholder="Address" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dPhone" class="">Phone</label>
+                                                <input name="dPhone" id="dPhone" placeholder="Phone" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dAltPhone" class="">Alt Phone</label>
+                                                <input name="dAltPhone" id="dAltPhone" placeholder="Alt Phone" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dSsn" class="">SSN</label>
+                                                <input name="dSsn" id="dSsn" placeholder="SSN" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dDriverLicense" class="">Driver License</label>
+                                                <input name="dDriverLicense" id="dDriverLicense" placeholder="Driver License" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dEmail" class="">Email</label>
+                                                <input name="dEmail" id="dEmail" placeholder="Email" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dFax" class="">Fax Number</label>
+                                                <input name="dFax" id="dFax" placeholder="Fax Number" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dSopaName" class="">SOPA Name</label>
+                                                <input name="dSopaName" id="dSopaName" placeholder="SOPA Name" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="position-relative form-group">
+                                                <label for="dSopaAddress" class="">SOPA Address</label>
+                                                <input name="dSopaAddress" id="dSopaAddress" placeholder="SOPA Address" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button class="mt-2 btn btn-primary float-right" onclick="saveDefendantsDetails(); return false;">Save Details</button>
+                                </form>
+                            </div>
+                        </div>
+                    {{else}}
+                        Please select a case to work with!
+                    {{/if}}
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-right">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 1
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 2
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+
+    </div>
+
+    {{> footer}}
+    <script>
+        $.ajax({
+            url: '{{baseURL}}case/casebyid?id={{currentCase.id}}',
+            method: 'get',
+            dataType: 'json',
+            success: function(res) {
+                $("#caseType").val(res.type)
+                $("#caseSubType").val(res.sub_type)
+                $("#assignedTo").val(res.assigned_to)
+                $("#legalAssistant").val(res.legal_assistant)
+                $("#courtNumber").val(res.court_number)
+                $("#courtType").val(res.court_type)
+                $("#judge").val(res.judge)
+                $("#place").val(res.place)
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
+
+        $.ajax({
+            url: '{{baseURL}}legalDetails/bycaseid?id={{currentCase.id}}',
+            method: 'get',
+            dataType: 'json',
+            success: function(res) {
+                let date = new Date(res.trial_date)
+                var day = ("0" + date.getDate()).slice(-2)
+                var month = ("0" + (date.getMonth() + 1)).slice(-2)
+                date = date.getFullYear() + "-" + month + "-" + day
+
+                $("#trialDate").val(date)
+                $("#matterNumber").val(res.client_matter_number)
+                $("#address").val(res.address)
+                $("#phone").val(res.phone)
+                $("#altPhone").val(res.alt_phone)
+                $("#city").val(res.city)
+                $("#state").val(res.state)
+                $("#zip").val(res.zip)
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
+
+        function saveLegalDetails() {
+            $.ajax({
+                url: '{{baseURL}}case',
+                method: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    caseId: {{currentCase.id}},
+                    caseType: $("#caseType").val(),
+                    caseSubType: $("#caseSubType").val(),
+                    assignedTo: $("#assignedTo").val(),
+                    legalAssistant: $("#legalAssistant").val(),
+                    courtNumber: $("#courtNumber").val(),
+                    judge: $("#judge").val(),
+                    place: $("#place").val(),
+                    courtType: $("#courtType").val(),
+                    caseDate: getFormattedDate()
+                }),
+                success: function(res) {
+                    console.log(JSON.stringify(res, undefined, 2))
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            }).then($.ajax({
+                url: '{{baseURL}}legalDetails',
+                method: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    caseId: {{currentCase.id}},
+                    trialDate: $("#trialDate").val(),
+                    clientMatterNumber: $("#matterNumber").val(),
+                    address: $("#address").val(),
+                    phone: $("#phone").val(),
+                    altPhone: $("#altPhone").val(),
+                    city: $("#city").val(),
+                    state: $("#state").val(),
+                    zip: $("#zip").val()
+                }),
+                success: function(res) {
+                    console.log(JSON.stringify(res, undefined, 2))
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })).then(() => {
+                showToast("success", "Changes saved successfully!")
+            })
+        }
+
+        $("#selectPlaintiff").change(function() {
+            let plaintiffId = $(this).val()
+            
+            $.ajax({
+                url: `{{baseURL}}plaintiff/${plaintiffId}`,
+                method: 'get',
+                dataType: 'json',
+                success: function(res) {
+                    console.log(JSON.stringify(res, undefined, 2))
+
+                    $("#pFirstName").val(res.first_name)
+                    $("#pLastName").val(res.last_name)
+                    $("#pType").val(res.type)
+                    $("#pDateAdded").val(res.date_added)
+                    $("#pCity").val(res.city)
+                    $("#pState").val(res.state)
+                    $("#pZip").val(res.zip)
+                    $("#pAddress").val(res.address)
+                    $("#pPhone").val(res.phone)
+                    $("#pAltPhone").val(res.alt_phone)
+                    $("#pSsn").val(res.ssn)
+                    $("#pDriverLicense").val(res.driver_license)
+                    $("#pEmail").val(res.email)
+                    $("#pFax").val(res.fax_number)
+                    $("#pSopaName").val(res.sopa_name)
+                    $("#pSopaAddress").val(res.sopa_address)
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
+
+        $("#selectDefendants").change(function() {
+            let defendantId = $(this).val()
+
+            $.ajax({
+                url: `{{baseURL}}defendant/${defendantId}`,
+                method: 'get',
+                dataType: 'json',
+                success: function(res) {
+                    console.log(JSON.stringify(res, undefined, 2))
+
+                    $("#dFirstName").val(res.first_name)
+                    $("#dLastName").val(res.last_name)
+                    $("#dType").val(res.type)
+                    $("#pDateAdded").val(res.date_added)
+                    $("#dCity").val(res.city)
+                    $("#dState").val(res.state)
+                    $("#dZip").val(res.zip)
+                    $("#dAddress").val(res.address)
+                    $("#dPhone").val(res.phone)
+                    $("#dAltPhone").val(res.alt_phone)
+                    $("#dSsn").val(res.ssn)
+                    $("#dDriverLicense").val(res.driver_license)
+                    $("#dEmail").val(res.email)
+                    $("#dFax").val(res.fax_number)
+                    $("#dSopaName").val(res.sopa_name)
+                    $("#dSopaAddress").val(res.sopa_address)
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
+
+        function savePlaintiffDetails() {
+            if ($("#selectPlaintiff").val() == undefined) {
+                return
+            }
+
+            $.ajax({
+                url: '{{baseURL}}plaintiff',
+                method: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    id: $("#selectPlaintiff").val(),
+                    firstName: $("#pFirstName").val(),
+                    lastName: $("#pLastName").val(),
+                    type: $("#pType").val(),
+                    dateAdded: $("#pDateAdded").val(),
+                    address: $("#pAddress").val(),
+                    city: $("#pCity").val(),
+                    state: $("#pState").val(),
+                    zip: $("#pZip").val(),
+                    phone: $("#pPhone").val(),
+                    altPhone: $("#pAltPhone").val(),
+                    ssn: $("#pSsn").val(),
+                    license: $("#pDriverLicense").val(),
+                    email: $("#pEmail").val(),
+                    faxNumber: $("#pFax").val(),
+                    sopaName: $("#pSopaName").val(),
+                    sopaAddress: $("#pSopaAddress").val()
+                }),
+                success: function(res) {
+                    showToast("success", "Changes saved successfully!")
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        }
+
+        function saveDefendantsDetails() {
+            if ($("#selectDefendant").val() == undefined) {
+                return
+            }
+
+            $.ajax({
+                url: '{{baseURL}}defendant',
+                method: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({
+                    id: $("#selectDefendant").val(),
+                    firstName: $("#dFirstName").val(),
+                    lastName: $("#dLastName").val(),
+                    type: $("#dType").val(),
+                    dateAdded: $("#dDateAdded").val(),
+                    address: $("#dAddress").val(),
+                    city: $("#dCity").val(),
+                    state: $("#dState").val(),
+                    zip: $("#dZip").val(),
+                    phone: $("#dPhone").val(),
+                    altPhone: $("#dAltPhone").val(),
+                    ssn: $("#dSsn").val(),
+                    license: $("#dDriverLicense").val(),
+                    email: $("#dEmail").val(),
+                    faxNumber: $("#dFax").val(),
+                    sopaName: $("#dSopaName").val(),
+                    sopaAddress: $("#dSopaAddress").val()
+                }),
+                success: function(res) {
+                    showToast("success", "Changes saved successfully!")
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        }
+
+        function getFormattedDate() {
+            var d = new Date();
+            d = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
+            return d;
+        }
+    </script>
+</body>
+</html>

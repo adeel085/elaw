@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Workers | eLaw</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="{{baseURL}}css/main.css" rel="stylesheet"></head>
+    <link rel="stylesheet" type="text/css" href="{{baseURL}}css/style.css">
+<body>
+
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+        
+        {{> header}}
+
+        <div class="app-main">
+            {{> sidebar}}
+            <div class="app-main__outer">
+                <div class="app-main__inner">
+
+                    <!-- Page Title -->
+                    <div class="app-page-title">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                <div class="page-title-icon">
+                                    <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                                    </i>
+                                </div>
+                                <div id="pageTitle">
+                                    Workers
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Page Title -->
+
+
+                    <!-- Page Content Goes Here -->
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title">Workers</h5>
+                            <table class="mb-0 table table-hover" id="activitiesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Username</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="app-wrapper-footer">
+                    <div class="app-footer">
+                        <div class="app-footer__inner">
+                            <div class="app-footer-right">
+                                <ul class="nav">
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 1
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="javascript:void(0);" class="nav-link">
+                                            Footer Link 2
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {{> footer}}
+    <script>
+        function getRoles() {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '{{baseURL}}utils/roles',
+                    contentType: 'application/json',
+                    method: 'get',
+                    success: function(res) {
+                        resolve(res)
+                    },
+                    error: function(err) {
+                        reject(err)
+                    }
+                })
+            })
+        }
+
+        function getWorkers() {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '{{baseURL}}worker/allworkers',
+                    method: 'get',
+                    contentType: 'application/json',
+                    success: function(res) {
+                        resolve(res)
+                    },
+                    error: function(err) {
+                        reject(err)
+                    }
+                })
+            })
+        }
+
+        function getRole(roles, enumForm) {
+            if (!roles)
+                return roles
+            
+            for (let i = 0; i < roles.length; i++) {
+                if (enumForm == roles[i]['enumForm']) {
+                    return roles[i]['name']
+                }
+            }
+        }
+
+        $(document).ready(async function() {
+            let roles = await getRoles()
+            let workers = await getWorkers()
+            
+            for (let i = 0; i < workers.length; i++) {
+                let row = `<tr>
+                                <td>${workers[i].first_name} ${workers[i].last_name}</td>
+                                <td>${getRole(roles, workers[i].role)}</td>
+                                <td>${workers[i].email}</td>
+                                <td>${workers[i].phone}</td>
+                                <td>${workers[i].username}</td>
+                            </tr>`
+                $("#activitiesTable tbody").append(row)
+            }
+        })
+    </script>
+</body>
+</html>

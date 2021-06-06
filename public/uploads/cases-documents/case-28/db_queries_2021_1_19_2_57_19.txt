@@ -1,0 +1,172 @@
+create table Courses(
+  CourseNo int not null primary key,
+  depName varchar(30) not null ,
+  courseTitle varchar(30) not null,
+  Year int not null,
+  instructor varchar(30) not null,
+  roomNo int not null
+);
+
+create Table Advisor(
+ name varchar(30)  primary key,
+ position varchar(30) not null,
+ depName varchar(30) not null,
+ contactNo int not null,
+ OfficeLoc nvarchar(20) not null
+);
+
+alter table Advisor 
+add unique(name);
+
+create table Students(
+  StudentID int not null primary key,
+  StudentName varchar(50) not null ,
+  address nvarchar(50) not null,
+  sex varchar(20) not null,
+  DOB date not null,
+  nationality varchar(10) not null,
+  category varchar(30) not null,
+  specialNeeds varchar(50) not null,
+  currentStatus varchar(30) not null,
+  comments varchar(50) ,
+  ContactPersonName varchar(30),
+  CourseNo int not null,
+  AdvisorName varchar(30) not null,
+  foreign key(AdvisorName) references Advisor(Name),
+  foreign key(CourseNo) references Courses(CourseNo)
+  
+);
+
+create table Contacts(
+  name varchar(30) primary key,
+  relationship varchar(30) not null,
+  address nvarchar(50) not null,
+  contactNo int not null
+);
+
+create table Staff(
+  name varchar(30) not null primary key,
+  DOB date not null,
+  sex varchar(30) not null,
+  position varchar(30) not null,
+  Location nvarchar(30) not null,
+  homeAddress nvarchar(30) not null
+);
+
+alter table Staff 
+add unique(name);
+
+insert into staff(name, DOB, sex, position, location, homeAddress) 
+values('Obama', '1970-04-09', 'Male', 'Teacher', 'Office 23', 'street 1')
+
+insert into staff(name, DOB, sex, position, location, homeAddress) 
+values('Daniel', '1970-04-09', 'Male', 'Teacher', 'Office 23', 'street 1')
+
+
+create table Inspection(
+  InspectionID int not null primary key,
+  DateOfInspection date not null ,
+  satisfactoryCondition varchar(30) not null,
+  comments varchar(50),
+  staffMemberName varchar(30) not null,
+  foreign key(staffmemberName) references Staff(name)
+);
+
+create table Rooms(
+  PlaceNo int not null primary key,
+  RoomNo int not null,
+  MonthlyRentRate int not null
+);
+
+create Table Lease(
+  LeaseNo int not null primary key,
+  Duration nvarchar(30) not null,
+  RentStart date not null,
+  RentFinish date not null,
+  address nvarchar(50) not null,
+  StudentID int,
+  PlaceNo int,
+  foreign key(StudentID) references Students(StudentID),
+  foreign key(PlaceNo) references Rooms(PlaceNo),
+);
+
+alter table Rooms
+add unique(PlaceNo);
+
+create Table HallOfResidence(
+  name varchar(30) primary key,
+  address nvarchar(30) not null,
+  contactNo int not null,
+  PlaceNo int not null,
+  foreign key (PlaceNo) references Rooms(PlaceNo)
+);
+
+create table Invoice(
+  InvoiceNo int not null primary key identity(1, 1),
+  quarter int not null,
+  PaymentDue int not null,
+  DateOfPayment date not null,
+  Reminders date not null,
+  LeaseNo int not null,
+  StudentID int not null,
+  PlaceNo int not null,
+  foreign key(LeaseNo) references Lease(LeaseNo),
+  foreign key(StudentID) references Students(StudentID),
+  foreign key(PlaceNo) references Rooms(PlaceNo)
+);
+
+create table StudentCourseConjunction(
+  StudentID int not null,
+  CourseNo int not null,
+  ID int not null IDENTITY(1,1) primary key
+);
+
+alter table StudentCourseConjunction
+add foreign key(StudentID) references Students(StudentID);
+
+insert into rooms(PlaceNo,RoomNo,MonthlyRentRate)
+values(100, 01, 50000);
+insert into rooms(PlaceNo,RoomNo,MonthlyRentRate)
+values(101, 02, 20000);
+insert into rooms(PlaceNo,RoomNo,MonthlyRentRate)
+values(102, 03, 50000);
+insert into rooms(PlaceNo,RoomNo,MonthlyRentRate)
+values(103, 04, 25000);
+
+insert into Courses(CourseNo,courseTitle,depName,year,roomNo,instructor)
+values('352','Calculus','Mathematics',2011,18, 'Daniel');
+insert into Courses(CourseNo,courseTitle,depName,year,roomNo,instructor)
+values('344','Artificial Intelligence','CS',2011,18, 'Obama');
+insert into Courses(CourseNo,courseTitle,depName,year,roomNo,instructor)
+values('359','OOP','CS',2008,19, 'Obama');
+
+insert into Advisor(name,position,depName,contactNo,officeLoc)
+values('Advisor1','Advisor','Mathemetics',12345,'125C');
+
+insert into Students(StudentID,StudentName, DOB, address,nationality,category,sex,specialNeeds,currentStatus,Comments,CourseNo,AdvisorName)
+values(001,'Michael','1998-12-31','12 Glasgow','Scottish','junior','Male','abc','waiting','xyz',352,'Advisor1');
+
+insert into Students(StudentID,StudentName, DOB, address,nationality,category,sex,specialNeeds,currentStatus,Comments,CourseNo,AdvisorName)
+values(002,'Harry','1998-12-30','14 ABC','Canadian','sophomore','Male','abc','waiting','xyz',344,'Advisor1');
+
+insert into Students(StudentID, StudentName, DOB, address,nationality,category,sex,specialNeeds,currentStatus,Comments,CourseNo,AdvisorName)
+values(003,'Aley','1999-12-20','14 ABC','Canadian','sophomore','Female','abc','waiting','xyz',344,'Advisor1');
+
+insert into StudentCourseConjunction(StudentID, CourseNo)
+values(002,344);
+insert into StudentCourseConjunction(StudentID, CourseNo)
+values(001,344);
+insert into StudentCourseConjunction(StudentID, CourseNo)
+values(001,352);
+
+insert into Lease(LeaseNo,Duration,RentStart,RentFinish,address, StudentID, PlaceNo)
+values(001,'1 month','2020-06-10','2020-11-10','Lahore', 001, 100);
+insert into Lease(LeaseNo,Duration,RentStart,RentFinish,address, StudentID, PlaceNo)
+values(002,'1 month','2020-06-10','2020-11-10','Lahore', 002, 101);
+insert into Lease(LeaseNo,Duration,RentStart,RentFinish,address, StudentID, PlaceNo)
+values(003,'2 month','2019-06-10','2020-11-10','Multan', 003, 102);
+
+insert into Invoice(quarter, PaymentDue, DateOfPayment, Reminders, LeaseNo, StudentID, PlaceNo) 
+values(2, 30000, '2020-8-10', '2020-10-10', 001, 001, 100);
+insert into Invoice(quarter, PaymentDue, DateOfPayment, Reminders, LeaseNo, StudentID, PlaceNo) 
+values(3, 40000, '2020-9-10', '2020-10-10', 002, 002, 101);
